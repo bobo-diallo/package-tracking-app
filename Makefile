@@ -33,6 +33,10 @@ clean:
 cli:
 	$(DOCKER_COMPOSE) exec app sh
 
+# Connect to the frontend app container
+#cli-front:
+	#$(DOCKER_COMPOSE) exec frontend sh
+#
 # Rebuild and restart the containers
 rebuild:
 	$(DOCKER_COMPOSE) build

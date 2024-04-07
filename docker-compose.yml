@@ -18,5 +18,12 @@ services:
             - "27017:27017"
         volumes:
             - mongo_data:/data/db
+#    frontend:
+#        build: ./frontend
+#        container_name: package_tracking_frontend
+#        volumes:
+#            - ./frontend:/angular
+#        ports:
+#            - "4200:4200"
 volumes:
     mongo_data:
