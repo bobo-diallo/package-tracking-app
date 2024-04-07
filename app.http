@@ -1,3 +1,76 @@
-### GET request with a header
-GET http://localhost:3000
+### GET all packages
+GET http://localhost:3000/api/package
 Accept: application/json
+
+### GET a package
+GET http://localhost:3000/api/package/12
+Accept: application/json
+
+### Create package
+POST http://localhost:3000/api/package
+Content-Type: application/json
+
+{
+  "active_delivery_id": 1,
+  "description": "desc 1",
+  "weight": 10,
+  "width": 10,
+  "height": 5,
+  "depth": 3,
+  "from_name": "Senegal",
+  "from_address": "Dakar,Senegal",
+  "from_location": {"lat": 14.716677, "lng": -17.467686},
+  "to_name": "Benin",
+  "to_address": "Cotonou,Benin",
+  "to_location": {"lat": 6.524379, "lng": 2.439228}
+}
+
+### Update package
+PUT http://localhost:3000/api/package/14
+Content-Type: application/json
+
+{
+  "from_address": "Thies,Senegal",
+  "to_location": {"lat": 8.524379, "lng": -8.439228}
+}
+
+### Delete package
+DELETE http://localhost:3000/api/package/11
+Content-Type: application/json
+
+
+#################### Delivery ####################
+
+### GET all deliveries
+GET http://localhost:3000/api/delivery
+Accept: application/json
+
+### GET a delivery
+GET http://localhost:3000/api/delivery/1
+Accept: application/json
+
+### Create delivery
+POST http://localhost:3000/api/delivery
+Content-Type: application/json
+
+{
+  "package_id": 12,
+  "description": "desc 1",
+  "pickup_time": "2024-04-06",
+  "start_time": "2024-04-06",
+  "end_time": "2024-05-06",
+  "location": {"lat": 14.716677, "lng": -17.467686},
+  "status": "picked-up"
+}
+
+### Update delivery
+PUT http://localhost:3000/api/delivery/1
+Content-Type: application/json
+
+{
+  "status": "delivered"
+}
+
+### Delete delivery
+DELETE http://localhost:3000/api/delivery/2
+Content-Type: application/json
