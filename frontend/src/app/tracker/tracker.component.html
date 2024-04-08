@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-10">
+      <input type="text" class="form-control" placeholder="Enter package ID" [(ngModel)]="searchPackageId">
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" (click)="trackPackage()">Track</button>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4" *ngIf="!packageDetails">
+  <div class="row">
+    <div class="col-md-6 package-details" style="height: 60vh;">
+      <!--   package details  -->
+      <div class="row" style="height: 30vh;">
+        <div class="col">
+          <h4>Package Details</h4>
+        </div>
+      </div>
+
+      <!-- delivery details -->
+      <div class="row" style="height: 30vh;">
+        <div class="col">
+          <h4>Delivery Details</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 package-map">
+      <div class="border border-primary p-3" style="height: 60vh;">
+
+      </div>
+    </div>
+  </div>
+</div>

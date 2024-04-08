@@ -11,7 +11,7 @@ eventEmitter.on('location_changed', eventData => {
 
     const {delivery_id, location} = eventData;
     try {
-        Delivery.findOneAndUpdate({delivery_id}, {location: location}).exec();
+        Delivery.findOneAndUpdate({_id: delivery_id}, {location: location}).exec();
     } catch (error) {
         console.error('Error updating delivery location:', error);
     }
@@ -27,14 +27,14 @@ eventEmitter.on('status_changed', eventData => {
 
     switch (status) {
         case 'picked-up':
-            Delivery.findOneAndUpdate({delivery_id}, {pickup_time: Date.now()});
+            Delivery.findOneAndUpdate({_id: delivery_id}, {pickup_time: Date.now()});
             break;
         case 'in-transit':
-            Delivery.findOneAndUpdate({delivery_id}, {start_time: Date.now()});
+            Delivery.findOneAndUpdate({_id: delivery_id}, {start_time: Date.now()});
             break;
         case 'delivered':
         case 'failed':
-            Delivery.findOneAndUpdate({delivery_id}, {end_time: Date.now()});
+            Delivery.findOneAndUpdate({_id: delivery_id}, {end_time: Date.now()});
             break;
         default:
             console.error('Invalid status:', status);

@@ -26,8 +26,9 @@ module.exports.getAllPackages = (req, res, next) => {
  */
 module.exports.getPackage = (req, res, next) => {
     Package.findOne({
-        package_id: req.params.id
+        _id: req.params.id
     })
+        .populate('active_delivery_id')
         .then(package => {
             if (!package) {
                 return res.status(404).json({message: 'Package not found'});
@@ -82,7 +83,7 @@ module.exports.createPackage = (req, res, next) => {
 module.exports.updatePackage = (req, res, next) => {
     const package = req.body;
     Package.findOneAndUpdate({
-        package_id: req.params.id
+        _id: req.params.id
     }, {
         $set: package
     }, {new: true})
@@ -108,7 +109,7 @@ module.exports.updatePackage = (req, res, next) => {
  * @param next
  */
 module.exports.deletePackage = (req, res, next) => {
-    Package.deleteOne({package_id: req.params.id})
+    Package.deleteOne({_id: req.params.id})
         .then(() => {
             res.status(200).json({message: 'Package deleted successfully'});
         })

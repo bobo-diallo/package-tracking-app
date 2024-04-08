@@ -1,11 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const packageRoutes = require('./backend/routes/packageRoutes');
 const deliveryRoutes = require('./backend/routes/deliveryRoutes');
 
 const app = express();
+app.use(cors());
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/package-tracking-db';
 
