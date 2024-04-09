@@ -9,7 +9,7 @@ import {WebSocketService} from '../services/websocket.service';
   styleUrl: './tracker.component.css'
 })
 export class TrackerComponent implements OnInit{
-  packageDetails: Package;
+  packageDetails: Package | null;
   searchPackageId: any;
 
   constructor(
@@ -21,6 +21,7 @@ export class TrackerComponent implements OnInit{
     // Delivery update listener
     this.webSocketService.listen('delivery_updated').subscribe((deliveryUpdate: any) => {
       console.log('Delivery update received from websocket', deliveryUpdate.delivery.data);
+      // @ts-ignore
       this.packageDetails.active_delivery = deliveryUpdate.delivery.data;
     });
 
@@ -34,6 +35,7 @@ export class TrackerComponent implements OnInit{
       },
       error: (error) => {
         console.log('Error fetching package details');
+        this.packageDetails = null;
         console.log(error);
       }
     });

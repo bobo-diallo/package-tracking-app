@@ -1,7 +1,10 @@
+const {mongoose} = require('mongoose');
+const PackageDTO = require('./packageDTO');
+
 class DeliveryDTO {
     constructor(
         delivery_id,
-        package_id,
+        current_package,
         pickup_time,
         start_time,
         end_time,
@@ -9,7 +12,7 @@ class DeliveryDTO {
         status
     ) {
         this.delivery_id = delivery_id;
-        this.package_id = package_id;
+        this.package = current_package;
         this.pickup_time = pickup_time;
         this.start_time = start_time;
         this.end_time = end_time;
@@ -18,10 +21,18 @@ class DeliveryDTO {
     }
 
     static fromDeliverySchema(deliverySchema) {
+        let currentPackage = null;
+
+        if (deliverySchema.package_id) {
+            currentPackage = (deliverySchema.package_id instanceof mongoose.Types.ObjectId) ?
+                deliverySchema.package_id :
+                PackageDTO.fromPackageSchema(deliverySchema.package_id);
+        }
+
         try {
             return new DeliveryDTO(
                 deliverySchema.delivery_id,
-                deliverySchema.package_id,
+                currentPackage,
                 deliverySchema.pickup_time,
                 deliverySchema.start_time,
                 deliverySchema.end_time,

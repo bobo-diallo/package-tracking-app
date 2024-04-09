@@ -39,9 +39,13 @@ class PackageDTO {
      * @returns {PackageDTO}
      */
     static fromPackageSchema(packageSchema) {
-        const activeDelivery = (packageSchema.active_delivery_id instanceof mongoose.Types.ObjectId) ?
-            packageSchema.active_delivery_id :
-            DeliveryDTO.fromDeliverySchema(packageSchema.active_delivery_id);
+        let  activeDelivery = null;
+
+        if (packageSchema.active_delivery_id) {
+            activeDelivery = (packageSchema.active_delivery_id instanceof mongoose.Types.ObjectId) ?
+                packageSchema.active_delivery_id :
+                DeliveryDTO.fromDeliverySchema(packageSchema.active_delivery_id);
+        }
 
         try {
             return new PackageDTO(

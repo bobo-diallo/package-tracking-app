@@ -14,8 +14,10 @@ export class PackageDetailsComponent implements OnInit {
 
 
   ngOnInit() {
-    const {lat, lng} = this.packageDetails.active_delivery.location;
-    this.createMap(lat, lng);
+    if (this.packageDetails && this.packageDetails.active_delivery) {
+      const {lat, lng} = this.packageDetails.active_delivery.location;
+      this.createMap(lat, lng);
+    }
   }
 
   createMap(lat: number, lng: number) {
