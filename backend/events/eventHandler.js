@@ -1,7 +1,22 @@
 const EventEmitter = require('events');
 const Delivery = require('../models/delivery');
+const DeliveryDTO = require('../models/DTO/deliveryDTO');
 const eventEmitter = new EventEmitter();
 
+
+const updateDelivery = (delivery_id, toUpdate) => {
+    Delivery.findByIdAndUpdate(delivery_id, toUpdate, { new: true })
+        .then( (updatedDelivery) => {
+
+            eventEmitter.emit('delivery_updated', {
+                delivery_id: delivery_id,
+                data: DeliveryDTO.fromDeliverySchema(updatedDelivery)
+            });
+        })
+        .catch(error => {
+            console.log('Failed to update delivery', error);
+        });
+}
 
 /**
  * Update the location of a delivery if package's location changes
@@ -11,7 +26,7 @@ eventEmitter.on('location_changed', eventData => {
 
     const {delivery_id, location} = eventData;
     try {
-        Delivery.findOneAndUpdate({_id: delivery_id}, {location: location}).exec();
+        updateDelivery(delivery_id, {location: location});
     } catch (error) {
         console.error('Error updating delivery location:', error);
     }
@@ -27,19 +42,18 @@ eventEmitter.on('status_changed', eventData => {
 
     switch (status) {
         case 'picked-up':
-            Delivery.findOneAndUpdate({_id: delivery_id}, {pickup_time: Date.now()});
+            updateDelivery(delivery_id, {pickup_time: Date.now()})
             break;
         case 'in-transit':
-            Delivery.findOneAndUpdate({_id: delivery_id}, {start_time: Date.now()});
+            updateDelivery(delivery_id, {start_time: Date.now()});
             break;
         case 'delivered':
         case 'failed':
-            Delivery.findOneAndUpdate({_id: delivery_id}, {end_time: Date.now()});
+            updateDelivery(delivery_id, {end_time: Date.now()});
             break;
         default:
             console.error('Invalid status:', status);
             break;
-
     }
 });
 
