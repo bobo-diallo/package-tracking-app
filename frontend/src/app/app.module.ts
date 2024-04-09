@@ -6,12 +6,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 
 import { routes } from './app.routes';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TrackerComponent} from './tracker/tracker.component';
 import {DriverComponent} from './driver/driver.component';
 import {AdminComponent} from './admin/admin.component';
 import {PackageDetailsComponent} from './package-details/package-details.component';
 import {DeliveryDetailsComponent} from './delivery-details/delivery-details.component';
+import {AdminHomeComponent} from './admin/admin-home/admin-home.component';
+import {CreateDeliveryComponent} from './admin/create-delivery/create-delivery.component';
+import {CreatePackageComponent} from './admin/create-package/create-package.component';
+import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -20,13 +26,19 @@ import {DeliveryDetailsComponent} from './delivery-details/delivery-details.comp
     DriverComponent,
     AdminComponent,
     PackageDetailsComponent,
-    DeliveryDetailsComponent
+    DeliveryDetailsComponent,
+    AdminHomeComponent,
+    CreateDeliveryComponent,
+    CreatePackageComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
