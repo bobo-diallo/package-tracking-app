@@ -9,7 +9,7 @@ To get started with the Package Tracking App, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/bobo-diallo/package-tracking-app.git
     ```
    
 2. Navigate to the project directory:
@@ -27,7 +27,7 @@ To get started with the Package Tracking App, follow these steps:
 4. Start the Angular frontend:
 
     ```bash
-    cd frontend aa npm instll && ng serve
+    cd frontend && npm instll && ng serve
     ```
 
 5. Access the application in your browser: Navigate to http://localhost:4200/ in your web browser.
