@@ -48,7 +48,7 @@ GET http://localhost:3000/api/delivery
 Accept: application/json
 
 ### GET a delivery
-GET http://localhost:3000/api/delivery/6613bd84a77151050349ce9f
+GET http://localhost:3000/api/delivery/6613bd9fa77151050349cea1
 Accept: application/json
 
 ### Create delivery
@@ -65,11 +65,14 @@ Content-Type: application/json
 }
 
 ### Update delivery
-PUT http://localhost:3000/api/delivery/661187c3ee33315806dafc68
+PUT http://localhost:3000/api/delivery/6613bd9fa77151050349cea1
 Content-Type: application/json
 
 {
-  "status": "delivered"
+  "status": "open",
+  "start_time": "2020-04-06",
+  "end_time": "2020-05-06",
+  "pickup_time": "2020-04-06"
 }
 
 ### Delete delivery

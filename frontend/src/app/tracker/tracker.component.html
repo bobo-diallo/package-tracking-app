@@ -9,28 +9,6 @@
   </div>
 </div>
 
-<div class="container mt-4" *ngIf="!packageDetails">
-  <div class="row">
-    <div class="col-md-6 package-details" style="height: 60vh;">
-      <!--   package details  -->
-      <div class="row" style="height: 30vh;">
-        <div class="col">
-          <h4>Package Details</h4>
-        </div>
-      </div>
-
-      <!-- delivery details -->
-      <div class="row" style="height: 30vh;">
-        <div class="col">
-          <h4>Delivery Details</h4>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 package-map">
-      <div class="border border-primary p-3" style="height: 60vh;">
-
-      </div>
-    </div>
-  </div>
+<div *ngIf="packageDetails">
+  <app-package-details [packageDetails]="packageDetails"></app-package-details>
 </div>

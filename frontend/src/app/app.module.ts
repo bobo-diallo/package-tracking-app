@@ -10,13 +10,17 @@ import {FormsModule} from '@angular/forms';
 import {TrackerComponent} from './tracker/tracker.component';
 import {DriverComponent} from './driver/driver.component';
 import {AdminComponent} from './admin/admin.component';
+import {PackageDetailsComponent} from './package-details/package-details.component';
+import {DeliveryDetailsComponent} from './delivery-details/delivery-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TrackerComponent,
     DriverComponent,
-    AdminComponent
+    AdminComponent,
+    PackageDetailsComponent,
+    DeliveryDetailsComponent
   ],
   imports: [
     BrowserModule,

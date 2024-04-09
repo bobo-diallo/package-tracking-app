@@ -74,16 +74,17 @@ module.exports.createDelivery = (req, res, next) => {
  */
 module.exports.updateDelivery = (req, res, next) => {
     const delivery = req.body;
-    Delivery.updateOne({
-        _id: req.params.id
-    }, {
-        $set: delivery
-    })
-        .then( () => {
+    const delivery_id = req.params.id;
+    Delivery.findByIdAndUpdate(delivery_id, delivery, { new: true })
+        .then( (updatedDelivery) => {
             if (delivery.status) {
-                eventEmitter.emit('status_changed', {delivery_id: req.params.id, status: delivery.status});
+                eventEmitter.emit('status_changed', {delivery_id: delivery_id, status: delivery.status});
             }
 
+            eventEmitter.emit('delivery_updated', {
+                delivery_id: delivery_id,
+                data: DeliveryDTO.fromDeliverySchema(updatedDelivery)
+            });
             res.status(200).json({message: 'Delivery updated successfully'});
         })
         .catch(error => {

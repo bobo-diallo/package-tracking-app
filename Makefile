@@ -10,8 +10,13 @@ up:
 	$(DOCKER_COMPOSE) up -d
 
 # Stop and remove the containers, networks, volumes, and images created by 'up'
-down:
+remove:
 	$(DOCKER_COMPOSE) down --remove-orphans
+
+
+# Stop containers
+down:
+	$(DOCKER_COMPOSE) down
 
 # Show logs of the containers in real-time
 logs:
