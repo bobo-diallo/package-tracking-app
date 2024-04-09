@@ -12,7 +12,6 @@ export class PackageService {
   constructor(private http: HttpClient) { }
 
   getAllPackages(): Observable<Package[]> {
-    console.log('Getting all packages:::::');
     return this.http.get<Package[]>(`${this.apiUrl}`);
   }
 

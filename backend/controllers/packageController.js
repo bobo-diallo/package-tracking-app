@@ -1,4 +1,6 @@
 const Package = require('../models/package');
+const Delivery = require('../models/delivery');
+
 const PackageDTO = require('../models/DTO/PackageDTO');
 const eventEmitter = require('../events/eventHandler');
 
@@ -18,6 +20,16 @@ module.exports.getAllPackages = (req, res, next) => {
         });
 }
 
+module.exports.getAvailablePackages = (req, res, next) => {
+    Package.find({ active_delivery_id: null })
+        .then(packages => {
+            return res.status(200).json(PackageDTO.fromArray(packages));
+        })
+        .catch(error => {
+            return res.status(400).json({ error });
+        });
+}
+
 /**
  * Get a single package
  * @param req
@@ -25,16 +37,23 @@ module.exports.getAllPackages = (req, res, next) => {
  * @param next
  */
 module.exports.getPackage = (req, res, next) => {
+    const package_id = req.params.id;
     Package.findOne({
-        _id: req.params.id
+        _id: package_id
     })
-        .populate('active_delivery_id')
         .then(package => {
             if (!package) {
                 return res.status(404).json({message: 'Package not found'});
             }
 
-            return res.status(200).json(PackageDTO.fromPackageSchema(package));
+            console.log('PPPPPPPP', package);
+            return Delivery.findOne({package_id: package_id})
+                .then(delivery => {
+                    if (delivery) {
+                        return res.status(200).json(PackageDTO.fromPackageSchema(package, delivery));
+                    }
+                    return res.status(200).json(PackageDTO.fromPackageSchema(package));
+                })
         })
         .catch(error => {
             return res.status(400).json({error});

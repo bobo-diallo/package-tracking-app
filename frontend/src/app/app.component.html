@@ -1,17 +1,16 @@
-<!-- navbar.component.html -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Package Tracking</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/admin">Admin</a>
+        <li class="nav-item" [class.active]="activeLink === '/admin'">
+          <a class="nav-link" routerLink="/admin" (click)="activeLink = '/admin'">Admin</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/tracker">Tracker</a>
+        <li class="nav-item" [class.active]="activeLink === '/tracker'">
+          <a class="nav-link" routerLink="/tracker" (click)="activeLink = '/tracker'">Tracker</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/driver">Driver</a>
+        <li class="nav-item" [class.active]="activeLink === '/driver'">
+          <a class="nav-link" routerLink="/driver" (click)="activeLink = '/driver'">Driver</a>
         </li>
       </ul>
     </div>

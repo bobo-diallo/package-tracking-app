@@ -61,8 +61,9 @@ module.exports.createDelivery = (req, res, next) => {
 
     delivery.save()
         .then((newDelivery) => {
-            console.log('New delivery created:', newDelivery);
-
+            if (newDelivery.package_id) {
+                Package.findByIdAndUpdate(newDelivery.package_id, {active_delivery_id: newDelivery._id}).exec()
+            }
             return res.status(201).json({
                 message: 'Delivery created successfully',
                 delivery: DeliveryDTO.fromDeliverySchema(newDelivery)
@@ -112,13 +113,7 @@ module.exports.updateDelivery = (req, res, next) => {
 module.exports.deleteDelivery = (req, res, next) => {
     Delivery.findOneAndDelete({_id: req.params.id})
         .then((delivery) => {
-
             if (delivery) {
-                Package.findOneAndUpdate(
-                    { _id: delivery.package_id },
-                    { $set: { active_delivery_id: delivery.delivery_id }
-                    });
-
                 return res.status(200).json({message: 'Delivery deleted successfully'});
             } else {
                 return res.status(404).json({message: 'Delivery not found'});

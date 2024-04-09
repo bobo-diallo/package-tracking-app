@@ -38,14 +38,8 @@ class PackageDTO {
      * @param packageSchema
      * @returns {PackageDTO}
      */
-    static fromPackageSchema(packageSchema) {
-        let  activeDelivery = null;
-
-        if (packageSchema.active_delivery_id) {
-            activeDelivery = (packageSchema.active_delivery_id instanceof mongoose.Types.ObjectId) ?
-                packageSchema.active_delivery_id :
-                DeliveryDTO.fromDeliverySchema(packageSchema.active_delivery_id);
-        }
+    static fromPackageSchema(packageSchema, deliverySchema = null) {
+        const activeDelivery = (deliverySchema) ? DeliveryDTO.fromDeliverySchema(deliverySchema) : null;
 
         try {
             return new PackageDTO(

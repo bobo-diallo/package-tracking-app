@@ -60,7 +60,8 @@ export class CreateDeliveryComponent {
   private getPackages(): void {
     this.packageService.getAllPackages().subscribe({
       next: (packages) => {
-        this.packageList = packages;
+        console.log('packages::::', packages);
+        this.packageList = packages.filter(p => p.active_delivery == null);
       },
       error: (error) => {
         console.log('Error fetching packages', error);
