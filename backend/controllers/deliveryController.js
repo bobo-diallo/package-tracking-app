@@ -28,7 +28,10 @@ module.exports.getDelivery = (req, res, next) => {
     Delivery.findOne({
         _id: req.params.id
     })
-        .populate('package_id')
+        .populate({
+            path: 'package_id',
+            model: 'Package'
+        })
         .then(delivery => {
             if (!delivery) {
                 return res.status(404).json({message: 'Delivery not found'});
@@ -59,10 +62,6 @@ module.exports.createDelivery = (req, res, next) => {
     delivery.save()
         .then((newDelivery) => {
             console.log('New delivery created:', newDelivery);
-            // Package.findOneAndUpdate(
-            //     { _id: newDelivery.package_id},
-            //     { $set: { active_delivery_id: newDelivery._id }
-            //     });
 
             return res.status(201).json({
                 message: 'Delivery created successfully',
@@ -87,7 +86,7 @@ module.exports.updateDelivery = (req, res, next) => {
         .then( (updatedDelivery) => {
             if (updatedDelivery) {
                 if (delivery.status) {
-                    eventEmitter.emit('status_changed', {delivery_id: delivery_id, status: delivery.status});
+                    eventEmitter.emit('status_updated', {delivery_id: delivery_id, status: delivery.status});
                 }
 
                 eventEmitter.emit('delivery_updated', {

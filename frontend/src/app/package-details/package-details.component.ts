@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Package} from '../models/package.model';
-import {DatePipe} from '@angular/common';
 import * as L from 'leaflet';
 
 

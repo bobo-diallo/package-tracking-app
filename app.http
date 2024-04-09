@@ -48,7 +48,7 @@ GET http://localhost:3000/api/delivery
 Accept: application/json
 
 ### GET a delivery
-GET http://localhost:3000/api/delivery/661534d1d7d42824d586836f
+GET http://localhost:3000/api/delivery/661534cbd7d42824d586836d
 Accept: application/json
 
 ### Create delivery

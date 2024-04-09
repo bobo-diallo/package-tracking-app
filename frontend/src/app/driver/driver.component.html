@@ -1,1 +1,20 @@
-<p>driver works!</p>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-10">
+      <input type="text" class="form-control" placeholder="Enter delivery ID" [(ngModel)]="searchDeliveryId">
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" (click)="findDelivery()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div *ngIf="deliveryDetails">
+    <app-delivery-details [deliveryDetails]="deliveryDetails"></app-delivery-details>
+  </div>
+
+  <div *ngIf="!deliveryDetails" class="d-flex justify-content-center align-items-center" style="height: 60vh;">
+    No data found
+  </div>
+</div>

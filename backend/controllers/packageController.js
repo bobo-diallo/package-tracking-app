@@ -34,7 +34,6 @@ module.exports.getPackage = (req, res, next) => {
                 return res.status(404).json({message: 'Package not found'});
             }
 
-            console.log('package::::', package)
             return res.status(200).json(PackageDTO.fromPackageSchema(package));
         })
         .catch(error => {

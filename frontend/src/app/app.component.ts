@@ -8,15 +8,4 @@ import {PackageService} from './services/package.service';
 })
 export class AppComponent {
   title = 'frontend';
-
-  constructor(
-    private packageService: PackageService
-  ) {
-  }
-
-  ngOnInit() {
-    this.packageService.getAllPackages().subscribe(data => {
-      console.log('All packages:::::', data);
-    });
-  }
 }

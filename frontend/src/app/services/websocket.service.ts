@@ -32,4 +32,17 @@ export class WebSocketService {
       filter((message) => message.event === eventName)
     );
   }
+
+  /**
+   *
+   * @param eventName
+   * @param data
+   */
+  sendMessage(eventName: string, data: any) {
+    console.log('Sending message:', eventName, data);
+    this.socket$.next({
+      event: eventName,
+      data: data
+    });
+  }
 }

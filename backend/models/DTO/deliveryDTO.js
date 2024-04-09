@@ -12,7 +12,7 @@ class DeliveryDTO {
         status
     ) {
         this.delivery_id = delivery_id;
-        this.package = current_package;
+        this.current_package = current_package;
         this.pickup_time = pickup_time;
         this.start_time = start_time;
         this.end_time = end_time;
