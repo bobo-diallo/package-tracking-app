@@ -3,7 +3,7 @@ GET http://localhost:3000/api/package
 Accept: application/json
 
 ### GET a package
-GET http://localhost:3000/api/package/661534e2d7d42824d5868371
+GET http://localhost:3000/api/package/6615a1cfbec884cb29f83e54
 Accept: application/json
 
 ### Create package
@@ -12,7 +12,7 @@ Content-Type: application/json
 
 {
   "description": "desc 1",
-  "active_delivery_id": "661534d1d7d42824d586836f",
+  "active_delivery_id": "66159def9862f8f9a4af679f",
   "weight": 10,
   "width": 10,
   "height": 5,
@@ -48,7 +48,7 @@ GET http://localhost:3000/api/delivery
 Accept: application/json
 
 ### GET a delivery
-GET http://localhost:3000/api/delivery/661534cbd7d42824d586836d
+GET http://localhost:3000/api/delivery/66159fb83bd8146e2a5a56f3
 Accept: application/json
 
 ### Create delivery

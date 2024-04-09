@@ -10,6 +10,10 @@ const eventEmitter = new EventEmitter();
  */
 const updateDelivery = (delivery_id, toUpdate) => {
     Delivery.findByIdAndUpdate(delivery_id, toUpdate, { new: true })
+        .populate({
+            path: 'package_id',
+            model: 'Package'
+        })
         .then( (updatedDelivery) => {
 
             eventEmitter.emit('delivery_updated', {

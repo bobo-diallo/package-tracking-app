@@ -12,9 +12,9 @@ const packageSchema = mongoose.Schema({
     to_name: String,
     to_address: String,
     to_location: {lat: Number, lng: Number},
-    active_delivery_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Delivery'
+    active_delivery_id:{
+        type: String,
+        default: null
     }
 }, { toJSON: { virtuals: true } });
 

@@ -19,11 +19,11 @@ export class DriverComponent implements OnInit {
 
   ngOnInit() {
     // Delivery update listener
-    // this.webSocketService.listen('delivery_updated').subscribe((deliveryUpdate: any) => {
-    //   console.log('Delivery update received from websocket', deliveryUpdate.delivery.data);
-    //   // @ts-ignore
-    //   this.packageDetails.active_delivery = deliveryUpdate.delivery.data;
-    // });
+    this.webSocketService.listen('delivery_updated').subscribe((deliveryUpdate: any) => {
+      console.log('Delivery update received from websocket', deliveryUpdate.delivery.data);
+      // @ts-ignore
+      this.deliveryDetails = deliveryUpdate.delivery.data;
+    });
   }
 
   findDelivery() {

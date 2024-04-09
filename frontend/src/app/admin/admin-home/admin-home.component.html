@@ -1,0 +1,82 @@
+<div class="row">
+  <div class="col-md-12">
+    <!--  Package Lsit -->
+    <div class="row mb-5">
+      <div class="col-md-10">
+        <div class="card">
+          <div class="card-header">
+            Package List
+          </div>
+          <div class="card-body" *ngIf="packages">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Description</th>
+                <th>weight</th>
+                <th>width</th>
+                <th>height</th>
+                <th>depth</th>
+                <th>from_name</th>
+                <th>to_name</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let package of packages">
+                <td>{{ package.package_id }}</td>
+                <td>{{ package.description }}</td>
+                <td>{{ package.weight }}</td>
+                <td>{{ package.width }}</td>
+                <td>{{ package.height }}</td>
+                <td>{{ package.depth }}</td>
+                <td>{{ package.from_name }}</td>
+                <td>{{ package.to_name }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-success btn-lg mb-5 w-100" (click)="createPackage()">Create Package</button>
+      </div>
+    </div>
+
+    <!-- Delivery List   -->
+    <div class="row">
+      <div class="col-md-10">
+        <div class="card">
+          <div class="card-header">
+            Delivery List
+          </div>
+          <div class="card-body" *ngIf="deliveries">
+            <table class="table">
+              <thead>
+              <tr>
+              <tr>
+                <th>ID</th>
+                <th>Pickup Time</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Statut</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let delivery of deliveries">
+                <td>{{ delivery.delivery_id }}</td>
+                <td>{{ delivery.pickup_time | date }}</td>
+                <td>{{ delivery.start_time | date }}</td>
+                <td>{{ delivery.end_time | date }}</td>
+                <td>{{ delivery.status }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-success btn-lg mb-5 w-100" (click)="createDelivery()">Create Delivery</button>
+      </div>
+    </div>
+  </div>
+</div>
