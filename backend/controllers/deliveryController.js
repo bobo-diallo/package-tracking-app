@@ -26,7 +26,7 @@ module.exports.getAllDeliveries = (req, res, next) => {
  */
 module.exports.getDelivery = (req, res, next) => {
     Delivery.findOne({
-        delivery_id: req.params.id
+        _id: req.params.id
     })
         .then(delivery => {
             if (!delivery) {
@@ -47,8 +47,6 @@ module.exports.getDelivery = (req, res, next) => {
  */
 module.exports.createDelivery = (req, res, next) => {
     const delivery = new Delivery({
-        delivery_id: req.body.delivery_id,
-        package_id: req.body.package_id,
         pickup_time: req.body.pickup_time,
         start_time: req.body.start_time,
         end_time: req.body.end_time,
@@ -76,16 +74,17 @@ module.exports.createDelivery = (req, res, next) => {
  */
 module.exports.updateDelivery = (req, res, next) => {
     const delivery = req.body;
-    Delivery.updateOne({
-        delivery_id: req.params.id
-    }, {
-        $set: delivery
-    })
-        .then( () => {
+    const delivery_id = req.params.id;
+    Delivery.findByIdAndUpdate(delivery_id, delivery, { new: true })
+        .then( (updatedDelivery) => {
             if (delivery.status) {
-                eventEmitter.emit('status_changed', {delivery_id: req.params.id, status: delivery.status});
+                eventEmitter.emit('status_changed', {delivery_id: delivery_id, status: delivery.status});
             }
 
+            eventEmitter.emit('delivery_updated', {
+                delivery_id: delivery_id,
+                data: DeliveryDTO.fromDeliverySchema(updatedDelivery)
+            });
             res.status(200).json({message: 'Delivery updated successfully'});
         })
         .catch(error => {
@@ -100,7 +99,7 @@ module.exports.updateDelivery = (req, res, next) => {
  * @param next
  */
 module.exports.deleteDelivery = (req, res, next) => {
-    Delivery.deleteOne({delivery_id: req.params.id})
+    Delivery.deleteOne({_id: req.params.id})
         .then(() => {
             res.status(200).json({message: 'Delivery deleted successfully'});
         })

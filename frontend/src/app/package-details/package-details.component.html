@@ -1,0 +1,48 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6 package-details" style="height: 60vh;">
+      <!--   package details  -->
+      <div class="row" style="height: 35vh;">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              Package Details
+            </div>
+            <div class="card-body">
+              <p>Description: {{ packageDetails.description }}</p>
+              <p>Weight: {{ packageDetails.weight }}</p>
+              <p>Width: {{ packageDetails.width }}</p>
+              <p>Height: {{ packageDetails.height }}</p>
+              <p>Depth: {{ packageDetails.depth }}</p>
+              <p>From Name: {{ packageDetails.from_name }}</p>
+              <p>From Address: {{ packageDetails.from_address }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- delivery details -->
+      <div class="row" style="height: 30vh;">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              Delivery Details
+            </div>
+            <div class="card-body">
+              <p>Pickup Time: {{ packageDetails.active_delivery.pickup_time | date: 'medium' }}</p>
+              <p>Start Time: {{ packageDetails.active_delivery.start_time | date: 'medium' }}</p>
+              <p>End Time: {{ packageDetails.active_delivery.end_time | date: 'medium' }}</p>
+              <p>Status: {{ packageDetails.active_delivery.status }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 package-map">
+      <div id="map" class="border border-primary p-3" style="height: 57vh;">
+
+      </div>
+    </div>
+  </div>
+</div>

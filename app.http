@@ -3,7 +3,7 @@ GET http://localhost:3000/api/package
 Accept: application/json
 
 ### GET a package
-GET http://localhost:3000/api/package/12
+GET http://localhost:3000/api/package/6613bf87c00856a4f0551662
 Accept: application/json
 
 ### Create package
@@ -11,7 +11,7 @@ POST http://localhost:3000/api/package
 Content-Type: application/json
 
 {
-  "active_delivery_id": 1,
+  "active_delivery_id": "6613bd9fa77151050349cea1",
   "description": "desc 1",
   "weight": 10,
   "width": 10,
@@ -41,12 +41,14 @@ Content-Type: application/json
 
 #################### Delivery ####################
 
+
+
 ### GET all deliveries
 GET http://localhost:3000/api/delivery
 Accept: application/json
 
 ### GET a delivery
-GET http://localhost:3000/api/delivery/1
+GET http://localhost:3000/api/delivery/6613bd9fa77151050349cea1
 Accept: application/json
 
 ### Create delivery
@@ -54,7 +56,6 @@ POST http://localhost:3000/api/delivery
 Content-Type: application/json
 
 {
-  "package_id": 12,
   "description": "desc 1",
   "pickup_time": "2024-04-06",
   "start_time": "2024-04-06",
@@ -64,11 +65,14 @@ Content-Type: application/json
 }
 
 ### Update delivery
-PUT http://localhost:3000/api/delivery/1
+PUT http://localhost:3000/api/delivery/6613bd9fa77151050349cea1
 Content-Type: application/json
 
 {
-  "status": "delivered"
+  "status": "open",
+  "start_time": "2020-04-06",
+  "end_time": "2020-05-06",
+  "pickup_time": "2020-04-06"
 }
 
 ### Delete delivery

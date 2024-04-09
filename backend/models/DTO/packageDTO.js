@@ -1,7 +1,10 @@
+const DeliveryDTO = require('./deliveryDTO');
+const {mongoose} = require('mongoose');
+
 class PackageDTO {
     constructor(
         package_id,
-        active_delivery_id,
+        active_delivery,
         description,
         weight,
         width,
@@ -15,7 +18,7 @@ class PackageDTO {
         to_location
     ) {
         this.package_id = package_id;
-        this.active_delivery_id = active_delivery_id;
+        this.active_delivery = active_delivery;
         this.description = description;
         this.weight = weight;
         this.width = width;
@@ -36,10 +39,14 @@ class PackageDTO {
      * @returns {PackageDTO}
      */
     static fromPackageSchema(packageSchema) {
+        const activeDelivery = (packageSchema.active_delivery_id instanceof mongoose.Types.ObjectId) ?
+            packageSchema.active_delivery_id :
+            DeliveryDTO.fromDeliverySchema(packageSchema.active_delivery_id);
+
         try {
             return new PackageDTO(
-                packageSchema.package_id,
-                packageSchema.active_delivery_id,
+                packageSchema._id,
+                activeDelivery,
                 packageSchema.description,
                 packageSchema.weight,
                 packageSchema.width,

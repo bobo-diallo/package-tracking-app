@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const packageSchema = mongoose.Schema({
-    package_id: {type: Number, unique: true},
-    active_delivery_id: {type: Number},
     description: String,
     weight: Number,
     width: Number,
@@ -14,8 +11,14 @@ const packageSchema = mongoose.Schema({
     from_location: {lat: Number, lng: Number},
     to_name: String,
     to_address: String,
-    to_location: {lat: Number, lng: Number}
-});
+    to_location: {lat: Number, lng: Number},
+    active_delivery_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Delivery'
+    }
+}, { toJSON: { virtuals: true } });
 
-packageSchema.plugin(AutoIncrement, {inc_field: 'package_id'});
+packageSchema.virtual('package_id').get(function() {
+    return this._id;
+});
 module.exports = mongoose.model('Package', packageSchema);
