@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Package} from '../models/package.model';
-import {DatePipe} from '@angular/common';
 import * as L from 'leaflet';
 
 
@@ -14,8 +13,10 @@ export class PackageDetailsComponent implements OnInit {
 
 
   ngOnInit() {
-    const {lat, lng} = this.packageDetails.active_delivery.location;
-    this.createMap(lat, lng);
+    if (this.packageDetails && this.packageDetails.active_delivery) {
+      const {lat, lng} = this.packageDetails.active_delivery.location;
+      this.createMap(lat, lng);
+    }
   }
 
   createMap(lat: number, lng: number) {

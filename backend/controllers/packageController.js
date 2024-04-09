@@ -11,10 +11,10 @@ const eventEmitter = require('../events/eventHandler');
 module.exports.getAllPackages = (req, res, next) => {
     Package.find()
         .then(packages => {
-            res.status(200).json(PackageDTO.fromArray(packages));
+            return res.status(200).json(PackageDTO.fromArray(packages));
         })
         .catch(error => {
-            res.status(400).json({error});
+            return res.status(400).json({error});
         });
 }
 
@@ -33,10 +33,11 @@ module.exports.getPackage = (req, res, next) => {
             if (!package) {
                 return res.status(404).json({message: 'Package not found'});
             }
-            res.status(200).json(PackageDTO.fromPackageSchema(package));
+
+            return res.status(200).json(PackageDTO.fromPackageSchema(package));
         })
         .catch(error => {
-            res.status(400).json({error});
+            return res.status(400).json({error});
         });
 }
 
@@ -64,13 +65,14 @@ module.exports.createPackage = (req, res, next) => {
 
     newPackage.save()
         .then((package) => {
-            res.status(201).json({
+            return res.status(201).json({
                 message: 'Package created successfully',
                 package: PackageDTO.fromPackageSchema(package)
             });
         })
         .catch(error => {
-            res.status(400).json({error});
+            console.log('Error creating package', error);
+            return res.status(409).json({error});
         });
 }
 
@@ -88,6 +90,10 @@ module.exports.updatePackage = (req, res, next) => {
         $set: package
     }, {new: true})
         .then((packageUpdated) => {
+            if (!packageUpdated) {
+                return res.status(404).json({message: 'Package not found'});
+            }
+
             if (package.to_location && packageUpdated.active_delivery_id) {
                 eventEmitter.emit('location_changed', {
                     delivery_id: packageUpdated.active_delivery_id,
@@ -95,10 +101,10 @@ module.exports.updatePackage = (req, res, next) => {
                 });
             }
 
-            res.status(200).json({message: 'Package updated successfully'});
+            return res.status(200).json({message: 'Package updated successfully'});
         })
         .catch(error => {
-            res.status(400).json({error});
+            return res.status(400).json({error});
         });
 }
 
@@ -109,11 +115,14 @@ module.exports.updatePackage = (req, res, next) => {
  * @param next
  */
 module.exports.deletePackage = (req, res, next) => {
-    Package.deleteOne({_id: req.params.id})
-        .then(() => {
-            res.status(200).json({message: 'Package deleted successfully'});
+    Package.findOneAndDelete({_id: req.params.id})
+        .then((packege) => {
+            if (!packege) {
+                return res.status(404).json({message: 'Package not found'});
+            }
+            return res.status(200).json({message: 'Package deleted successfully'});
         })
         .catch(error => {
-            res.status(400).json({error});
+            return res.status(400).json({error});
         });
 }

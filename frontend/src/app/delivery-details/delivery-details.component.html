@@ -1,1 +1,56 @@
-<p>delivery-details works!</p>
+<div class="row">
+  <div class="col-md-10">
+    <div class="row">
+      <div class="col-md-6 package-details" style="height: 35vh;">
+        <!-- Package details -->
+        <div class="row" style="height: 35vh;">
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                Package Details
+              </div>
+              <div class="card-body" *ngIf="deliveryDetails.current_package">
+                <p>Description: {{ deliveryDetails.current_package?.description }}</p>
+                <p>Weight: {{ deliveryDetails.current_package?.weight }}</p>
+                <p>Width: {{ deliveryDetails.current_package?.width }}</p>
+                <p>Height: {{ deliveryDetails.current_package?.height }}</p>
+                <p>Depth: {{ deliveryDetails.current_package?.depth }}</p>
+                <p>From Name: {{ deliveryDetails.current_package?.from_name }}</p>
+                <p>From Address: {{ deliveryDetails.current_package?.from_address }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery details -->
+        <div class="row" style="height: 30vh;">
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                Delivery Details
+              </div>
+              <div class="card-body">
+                <p>Pickup Time: {{ deliveryDetails.pickup_time | date: 'medium' }}</p>
+                <p>Start Time: {{ deliveryDetails.start_time | date: 'medium' }}</p>
+                <p>End Time: {{ deliveryDetails.end_time | date: 'medium' }}</p>
+                <p>Status: {{ deliveryDetails.status }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 delivery-map">
+        <div id="deliveryMap" class="border border-primary p-3" style="height: 57vh;">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 d-flex flex-column align-items-end" style="margin-bottom: 30px;">
+    <button class="btn btn-primary btn-lg mb-5 w-100" (click)="updateStatus('picked-up')">Pickup</button>
+    <button class="btn btn-warning btn-lg mb-5 w-100" (click)="updateStatus('in-transit')">In-Transit</button>
+    <button class="btn btn-success btn-lg mb-5 w-100" (click)="updateStatus('delivered')">Delivered</button>
+    <button class="btn btn-danger btn-lg mb-5 w-100" (click)="updateStatus('failed')">Failed</button>
+  </div>
+
+</div>

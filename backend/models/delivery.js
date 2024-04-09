@@ -6,10 +6,10 @@ const deliverySchema = mongoose.Schema({
     end_time: Date,
     location: {lat: Number, lng: Number},
     status: {type: String, enum: ['open', 'picked-up', 'in-transit', 'delivered', 'failed'], default: 'open'},
-    packages: [{
+    package_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Package'
-    }]
+    }
 }, { toJSON: { virtuals: true } });
 
 deliverySchema.virtual('delivery_id').get(function() {

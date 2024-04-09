@@ -1,7 +1,7 @@
 const Delivery = require('../models/delivery');
+const Package = require('../models/package');
 const DeliveryDTO = require('../models/DTO/DeliveryDTO');
 const eventEmitter = require('../events/eventHandler');
-// const eventEmitter = new EventEmitter();
 
 /**
  *
@@ -12,9 +12,9 @@ const eventEmitter = require('../events/eventHandler');
 module.exports.getAllDeliveries = (req, res, next) => {
     Delivery.find()
         .then(deliveries => {
-            res.status(200).json(DeliveryDTO.fromArray(deliveries));
+            return res.status(200).json(DeliveryDTO.fromArray(deliveries));
         }).catch(error => {
-            res.status(400).json({error});
+            return res.status(400).json({error});
         });
 };
 
@@ -28,14 +28,18 @@ module.exports.getDelivery = (req, res, next) => {
     Delivery.findOne({
         _id: req.params.id
     })
+        .populate({
+            path: 'package_id',
+            model: 'Package'
+        })
         .then(delivery => {
             if (!delivery) {
                 return res.status(404).json({message: 'Delivery not found'});
             }
-            res.status(200).json(DeliveryDTO.fromDeliverySchema(delivery));
+            return res.status(200).json(DeliveryDTO.fromDeliverySchema(delivery));
         })
         .catch(error => {
-            res.status(400).json({error});
+            return res.status(400).json({error});
         });
 }
 
@@ -51,18 +55,21 @@ module.exports.createDelivery = (req, res, next) => {
         start_time: req.body.start_time,
         end_time: req.body.end_time,
         location: req.body.location,
-        status: req.body.status
+        status: req.body.status,
+        package_id: req.body.package_id,
     });
 
     delivery.save()
-        .then((delivery) => {
-            res.status(201).json({
+        .then((newDelivery) => {
+            console.log('New delivery created:', newDelivery);
+
+            return res.status(201).json({
                 message: 'Delivery created successfully',
-                delivery: DeliveryDTO.fromDeliverySchema(delivery)
+                delivery: DeliveryDTO.fromDeliverySchema(newDelivery)
             });
         })
         .catch(error => {
-            res.status(400).json({error});
+            return res.status(400).json({error});
         });
 }
 
@@ -77,18 +84,22 @@ module.exports.updateDelivery = (req, res, next) => {
     const delivery_id = req.params.id;
     Delivery.findByIdAndUpdate(delivery_id, delivery, { new: true })
         .then( (updatedDelivery) => {
-            if (delivery.status) {
-                eventEmitter.emit('status_changed', {delivery_id: delivery_id, status: delivery.status});
-            }
+            if (updatedDelivery) {
+                if (delivery.status) {
+                    eventEmitter.emit('status_updated', {delivery_id: delivery_id, status: delivery.status});
+                }
 
-            eventEmitter.emit('delivery_updated', {
-                delivery_id: delivery_id,
-                data: DeliveryDTO.fromDeliverySchema(updatedDelivery)
-            });
-            res.status(200).json({message: 'Delivery updated successfully'});
+                eventEmitter.emit('delivery_updated', {
+                    delivery_id: delivery_id,
+                    data: DeliveryDTO.fromDeliverySchema(updatedDelivery)
+                });
+                return res.status(200).json({message: 'Delivery updated successfully'});
+            } else {
+                return res.status(404).json({message: 'Delivery not found'});
+            }
         })
         .catch(error => {
-            res.status(400).json({error});
+            return res.status(400).json({error});
         });
 }
 
@@ -99,11 +110,21 @@ module.exports.updateDelivery = (req, res, next) => {
  * @param next
  */
 module.exports.deleteDelivery = (req, res, next) => {
-    Delivery.deleteOne({_id: req.params.id})
-        .then(() => {
-            res.status(200).json({message: 'Delivery deleted successfully'});
+    Delivery.findOneAndDelete({_id: req.params.id})
+        .then((delivery) => {
+
+            if (delivery) {
+                Package.findOneAndUpdate(
+                    { _id: delivery.package_id },
+                    { $set: { active_delivery_id: delivery.delivery_id }
+                    });
+
+                return res.status(200).json({message: 'Delivery deleted successfully'});
+            } else {
+                return res.status(404).json({message: 'Delivery not found'});
+            }
         })
         .catch(error => {
-            res.status(400).json({error});
+            return res.status(400).json({error});
         });
 }
